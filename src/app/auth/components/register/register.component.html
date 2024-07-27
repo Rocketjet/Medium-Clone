@@ -7,7 +7,7 @@
         <p class="text-xs-center">
           <a routerLink="/login">Have an account?</a>
         </p>
-        BACKEND ERRORS HERE
+
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <fieldset class="form-group">
             <input
@@ -33,6 +33,9 @@
               formControlName="password"
             />
           </fieldset>
+          @if (data.responseErrors) {
+          <app-response-error-messages [errors]="data.responseErrors" />
+          }
           <button
             type="submit"
             class="btn btn-lg btn-primary pull-xs-right"
