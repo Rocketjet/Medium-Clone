@@ -6,8 +6,11 @@ import authActions from '../../store/auth.actions';
 import { RegisterRequestInterface } from 'src/app/auth/interfaces/register-request.interface';
 import { RouterLink } from '@angular/router';
 import { AppStateInterface } from 'src/app/app.interfaces';
-import { selectIsSubmitting } from '../../store/auth.reducer';
-import { AuthService } from '../../services/auth.service';
+import {
+  selectIsSubmitting,
+  selectValidationErrors,
+} from '../../store/auth.reducer';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -18,8 +21,10 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   store = inject(Store<AppStateInterface>);
-  isSubmitting$ = this.store.select(selectIsSubmitting)
-
+  data$ = combineLatest({
+    isSubmitting: this.store.select(selectIsSubmitting),
+    responseErrors: this.store.select(selectValidationErrors),
+  });
   form = this.fb.nonNullable.group({
     username: ['', Validators.required],
     email: ['', Validators.required],

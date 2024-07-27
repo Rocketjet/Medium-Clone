@@ -1,5 +1,6 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 import { RegisterRequestInterface } from 'src/app/auth/interfaces/register-request.interface';
+import { ResponseErrorInterface } from 'src/app/shared/interfaces/response-errors.interface';
 import { UserInterface } from 'src/app/shared/interfaces/user.interface';
 
 const authActions = createActionGroup({
@@ -7,7 +8,7 @@ const authActions = createActionGroup({
   events: {
     register: props<{ request: RegisterRequestInterface }>(),
     registerSuccess: props<{ user: UserInterface }>(),
-    registerFailure: emptyProps(),
+    registerFailure: props<{ errors: ResponseErrorInterface }>(),
   },
 });
 

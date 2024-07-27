@@ -1,7 +1,9 @@
+import { ResponseErrorInterface } from 'src/app/shared/interfaces/response-errors.interface';
+import { UserInterface } from 'src/app/shared/interfaces/user.interface';
+
 export interface AuthStateInterface {
   isSubmitting: boolean;
-  // isLoading: boolean;
-  // currentUser: UserInterface | null;
-  // isLoggedIn: boolean;
-  // validationErrors: BackendErrorsInterface | null;
+  isLoading: boolean;
+  user: UserInterface | null | undefined;
+  validationErrors: ResponseErrorInterface | null;
 }

@@ -1,3 +1,4 @@
+@if (data$ | async; as data) {
 <div class="auth-page">
   <div class="container page">
     <div class="row">
@@ -32,7 +33,11 @@
               formControlName="password"
             />
           </fieldset>
-          <button type="submit" class="btn btn-lg btn-primary pull-xs-right" [disabled]="isSubmitting$ | async">
+          <button
+            type="submit"
+            class="btn btn-lg btn-primary pull-xs-right"
+            [disabled]="data.isSubmitting"
+          >
             Sign Up
           </button>
         </form>
@@ -40,3 +45,4 @@
     </div>
   </div>
 </div>
+}
