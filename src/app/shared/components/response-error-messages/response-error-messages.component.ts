@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ResponseErrorInterface } from '../../response-errors.interface';
+import { ResponseErrorInterface } from '../../interfaces/response-errors.interface';
 import { OnIdentifyEffects } from '@ngrx/effects';
 import { CommonModule } from '@angular/common';
 
