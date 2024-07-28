@@ -5,12 +5,30 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../services/auth.service';
 import authActions from './auth.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { ResponseErrorInterface } from 'src/app/shared/interfaces/response-errors.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PersistanceService } from 'src/app/shared/services/persistance.service';
 import { Router } from '@angular/router';
 
-//! коли тригериться дія, вказана в ofType, виконається код в switchMap, де виконується api call через метод з authService. Якщо кол успішний, тригериться registerSuccess action. Якщо неуспішний, помилка попаде в catchError і тригериться registerFailure action
+//! коли тригериться дія, вказана в ofType, виконається код в наступному операторі, де, як правило, буде виконуватися якась асинхронна дія. Якщо кол успішний, тригериться success action. Якщо неуспішний, помилка попаде в catchError і тригериться failure action
+
+export const getCurrentUserEffect = createEffect(
+  (actions$ = inject(Actions), authService = inject(AuthService), persistanceService = inject(PersistanceService)) => {
+    return actions$.pipe(
+      ofType(authActions.getCurrentUser),
+      switchMap(() => {
+        const authToken = persistanceService.get('authToken');
+        if (!authToken) {
+          return of(authActions.getCurrentUserFailure());
+        }
+        return authService.getCurrentUser().pipe(
+          map((user) => authActions.getCurrentUserSuccess({ user })),
+          catchError(() => of(authActions.getCurrentUserFailure()))
+        );
+      })
+    );
+  },
+  { functional: true }
+);
 
 export const registerEffect = createEffect(
   (
@@ -23,27 +41,24 @@ export const registerEffect = createEffect(
       switchMap(({ request }) =>
         authService.register(request).pipe(
           map((user) => {
-            persistanceService.set('accessToken', user.token);
+            persistanceService.set('authToken', user.token);
             return authActions.registerSuccess({ user }); //? повертаючи виклик цього екшена, він далі буде переданий в dispatch автоматично після чого спрацює відповідний reducer
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(
+              authActions.registerFailure({
+                errors: errorResponse.error.errors,
+              })
+            );
           })
         )
-      ), //? отримуємо request, який було передано з компонента екшену register через dispatch і далі передаємо у відповідний метод сервіcа authService
-      catchError((errorResponse: HttpErrorResponse) => {
-        return of(
-          authActions.registerFailure({
-            errors: errorResponse.error.errors,
-          })
-        );
-      })
+      ) //? отримуємо request, який було передано з компонента екшену register через dispatch і далі передаємо у відповідний метод сервіcа authService
     ), //? 1 аргумент метода createEffect це EffectConfig
   { functional: true } //? 2 аргумент вказує на те, що ми пишемо ефект у функціональному стилі а не через клас
 );
 
 export const redirectAfterRegisterEffect = createEffect(
-  (
-    actions$ = inject(Actions),
-    router = inject(Router)
-  ) =>
+  (actions$ = inject(Actions), router = inject(Router)) =>
     actions$.pipe(
       ofType(authActions.registerSuccess),
       tap(() => {
@@ -51,4 +66,42 @@ export const redirectAfterRegisterEffect = createEffect(
       })
     ),
   { functional: true, dispatch: false } //dispatch: false означає, що в цьому ефекті екшени діспатчитись не будуть
+);
+
+export const loginEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    authService = inject(AuthService),
+    persistanceService = inject(PersistanceService)
+  ) =>
+    actions$.pipe(
+      ofType(authActions.login),
+      switchMap(({ request }) =>
+        authService.login(request).pipe(
+          map((user) => {
+            persistanceService.set('accessToken', user.token);
+            return authActions.loginSuccess({ user });
+          }),
+          catchError((errorResponse: HttpErrorResponse) => {
+            return of(
+              authActions.loginFailure({
+                errors: errorResponse.error.errors,
+              })
+            );
+          })
+        )
+      )
+    ),
+  { functional: true }
+);
+
+export const redirectAfterLoginEffect = createEffect(
+  (actions$ = inject(Actions), router = inject(Router)) =>
+    actions$.pipe(
+      ofType(authActions.loginSuccess),
+      tap(() => {
+        router.navigateByUrl('/');
+      })
+    ),
+  { functional: true, dispatch: false }
 );

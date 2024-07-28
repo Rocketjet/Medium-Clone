@@ -2,12 +2,12 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import authActions from './auth.actions';
 import { AuthStateInterface } from '../interfaces/auth-state.interface';
-import { ResponseErrorInterface } from 'src/app/shared/interfaces/response-errors.interface';
+import { routerNavigationAction } from '@ngrx/router-store';
 
 const initialState: AuthStateInterface = {
   isSubmitting: false,
-  user: undefined,
   isLoading: false,
+  user: undefined,
   validationErrors: null,
 };
 
@@ -16,21 +16,47 @@ const authFeature = createFeature({
   name: 'auth',
   reducer: createReducer(
     initialState,
-    on(authActions.register, (state) => ({
+    //? метод on() асоціює передану дію з коллбеком, який передається останнім аргументом і який відповідальний за зміну стану
+    on(authActions.register, authActions.login, (state) => ({
       ...state,
       isSubmitting: true,
       validationErrors: null,
     })),
-    //? метод on() асоціює передану дію з коллбеком, який передається останнім аргументом і який відповідальний за зміну стану
-    on(authActions.registerSuccess, (state, { user }) => ({
+    on(
+      authActions.registerSuccess,
+      authActions.loginSuccess,
+      (state, { user }) => ({
+        ...state,
+        isSubmitting: false,
+        user,
+      })
+    ),
+    on(
+      authActions.registerFailure,
+      authActions.loginFailure,
+      (state, { errors }) => ({
+        ...state,
+        isSubmitting: false,
+        validationErrors: errors,
+      })
+    ),
+    on(authActions.getCurrentUser, (state) => ({
       ...state,
-      isSubmitting: false,
+      isLoading: true,
+    })),
+    on(authActions.getCurrentUserSuccess, (state, { user }) => ({
+      ...state,
+      isLoading: false,
       user,
     })),
-    on(authActions.registerFailure, (state, { errors }) => ({
+    on(authActions.getCurrentUserFailure, (state) => ({
       ...state,
-      isSubmitting: false,
-      validationErrors: errors,
+      isLoading: false,
+      user: null,
+    })),
+    on(routerNavigationAction, (state) => ({
+      ...state,
+      validationErrors: null,
     }))
   ),
 });
@@ -41,6 +67,6 @@ export const {
   selectIsSubmitting,
   selectValidationErrors,
   selectUser,
-  selectIsLoading
+  selectIsLoading,
 } = authFeature;
-//? селектор selectIsSubmitting надається нам "з коробки" методом createFeature()
+//? селектори типу selectIsSubmitting надаються нам "з коробки" методом createFeature()
