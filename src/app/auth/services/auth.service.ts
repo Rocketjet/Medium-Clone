@@ -11,7 +11,7 @@ import { LoginRequestInterface } from '../interfaces/login-request.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  httpClient = inject(HttpClient);
+  private readonly httpClient = inject(HttpClient);
 
   constructor() {}
 

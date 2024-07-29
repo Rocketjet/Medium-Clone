@@ -26,7 +26,7 @@ import { ValidationErrorMessagesComponent } from 'src/app/shared/components/resp
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  store = inject(Store<AppStateInterface>);
+  private readonly store = inject(Store<AppStateInterface>);
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
     validationErrors: this.store.select(selectValidationErrors),

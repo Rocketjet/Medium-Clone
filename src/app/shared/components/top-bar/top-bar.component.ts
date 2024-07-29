@@ -13,7 +13,7 @@ import { selectUser } from 'src/app/auth/store/auth.reducer';
   styleUrl: './top-bar.component.scss'
 })
 export class TopBarComponent {
-  store = inject(Store)
+  private readonly store = inject(Store)
   data$ = combineLatest({
     user: this.store.select(selectUser),
   })

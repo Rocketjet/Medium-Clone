@@ -13,7 +13,7 @@ import authActions from './auth/store/auth.actions';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  store = inject(Store);
+  private readonly store = inject(Store);
 
   ngOnInit() {
     this.store.dispatch(authActions.getCurrentUser());

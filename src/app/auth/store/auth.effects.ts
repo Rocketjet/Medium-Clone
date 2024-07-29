@@ -39,6 +39,7 @@ export const registerEffect = createEffect(
     actions$.pipe(
       ofType(authActions.register), //? таким чином ми обмежуємо стрім actions до єдиного потрібного екшена register
       switchMap(({ request }) =>
+        //? в нас є доступ до request тому, що він передається в props екшена register і попадає в стрім actions$
         authService.register(request).pipe(
           map((user) => {
             persistanceService.set('authToken', user.token);

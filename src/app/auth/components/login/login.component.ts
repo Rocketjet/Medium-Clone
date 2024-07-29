@@ -26,7 +26,7 @@ import { LoginRequestInterface } from '../../interfaces/login-request.interface'
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  store = inject(Store<AppStateInterface>);
+  private readonly store = inject(Store<AppStateInterface>);
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
     validationErrors: this.store.select(selectValidationErrors),
