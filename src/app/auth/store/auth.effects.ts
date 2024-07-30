@@ -63,7 +63,7 @@ export const redirectAfterRegisterEffect = createEffect(
     actions$.pipe(
       ofType(authActions.registerSuccess),
       tap(() => {
-        router.navigateByUrl('/');
+        router.navigateByUrl('/'); //? редіректимо на головну сторінку
       })
     ),
   { functional: true, dispatch: false } //dispatch: false означає, що в цьому ефекті екшени діспатчитись не будуть

@@ -1,0 +1,22 @@
+@if (data$ | async; as data) {
+  @if (data.isLoading) {
+    <app-loading />
+  }
+  @if (data.error) {
+    <app-error-message [message]="data.error" />
+  }
+  @if (data.popularTags) {
+    <div class="sidebar">
+      <p>Popular tags</p>
+      <div class="tags-list">
+        @for (tag of data.popularTags; track $index) {
+          <a
+            [routerLink]="['/tags', tag]"
+            class="tag-default tag-pill"
+            >{{ tag }}</a
+          >
+        }
+      </div>
+    </div>
+  }
+}

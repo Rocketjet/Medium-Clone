@@ -22,12 +22,13 @@ export class PaginationComponent implements OnInit {
   pages!: number[];
 
   ngOnInit(): void {
+    // загальна кількість сторінок (number)
     this.pagesCount = this.paginationService.setPagesCount(
       this.total,
       this.limit
     );
-
+    // масив з кількістю сторінок (number[])
     this.pages =
-      this.pagesCount > 0 ? this.utilsService.range(1, this.pagesCount) : [];
+      this.pagesCount > 0 ? this.utilsService.range(this.pagesCount) : [];
   }
 }

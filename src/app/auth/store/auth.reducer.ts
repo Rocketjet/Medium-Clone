@@ -62,8 +62,8 @@ const authFeature = createFeature({
 });
 
 export const {
-  name: authFeatureKey,
-  reducer: authReducer,
+  name: authFeatureKey, //для імпорту в provideStore()
+  reducer: authReducer, //для імпорту в provideStore()
   selectIsSubmitting,
   selectValidationErrors,
   selectUser,

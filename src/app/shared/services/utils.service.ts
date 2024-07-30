@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UtilsService {
-  range(start: number, end: number): number[] {
-    return [...Array(end - start).keys()].map((el) => el + start);
+  //? створюємо масив чисел, де кожен індекс відповідає номеру сторінки 
+  range(count: number): number[] {
+    return [...Array(count).keys()].map((el) => el + 1);
   }
 }

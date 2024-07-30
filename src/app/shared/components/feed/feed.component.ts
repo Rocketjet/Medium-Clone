@@ -14,18 +14,11 @@ import { selectError, selectFeed, selectIsLoading } from './store/feed.reducer';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { ErrorMessageComponent } from '../error-messages/error-message.component';
 import { LoadingComponent } from '../loading/loading.component';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/_common_environment';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { FeedService } from './services/feed.service';
-import { GetFeedResponseInterface } from './interfaces/get-feed-response.interface';
 import { TagListComponent } from '../tag-list/tag-list.component';
-// import { AddToFavouritesComponent } from '../add-to-favouties/add-to-favourites.component';
-
-interface FeedData {
-  isLoading: boolean;
-  error: string | null;
-  feed: GetFeedResponseInterface | null;
-}
+import { FeedStateInterface } from './interfaces/feed-state.interface';
 
 @Component({
   selector: 'app-feed',
@@ -38,24 +31,22 @@ interface FeedData {
     LoadingComponent,
     PaginationComponent,
     TagListComponent,
-    // AddToFavouritesComponent,
   ],
 })
-export class FeedComponent implements OnInit {
-  @Input() public apiUrl!: string;
+export class FeedComponent implements OnInit, OnChanges {
+  @Input() apiUrl!: string;
 
   private readonly store = inject(Store);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly feedService = inject(FeedService);
 
-  public data$!: Observable<FeedData>;
+  data$!: Observable<FeedStateInterface>;
   baseUrl!: string; // яка стрічка відкрита
-  public currentPage!: number; // на які ми сторінці
-  public limit!: number; // кількість постів в стрічці
+  currentPage!: number; // на які ми сторінці
+  limit!: number; // максимальна кількість постів в стрічці
 
-  public ngOnInit(): void {
-    this.store.dispatch(feedActions.getFeed({ url: this.apiUrl }));
+  ngOnInit(): void {
     this.data$ = combineLatest({
       isLoading: this.store.select(selectIsLoading),
       error: this.store.select(selectError),
@@ -69,20 +60,23 @@ export class FeedComponent implements OnInit {
       this.fetchFeed();
     });
   }
-  // public ngOnChanges(changes: SimpleChanges): void {
-  //   const isApiUrlChanged =
-  //     !changes['apiUrl'].firstChange &&
-  //     changes['apiUrl'].currentValue !== changes['apiUrl'].previousValue;
-  //   if (isApiUrlChanged) {
-  //     this.fetchFeed();
-  //   }
-  // }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const isApiUrlChanged =
+      !changes['apiUrl'].firstChange &&
+      changes['apiUrl'].currentValue !== changes['apiUrl'].previousValue;
+
+    if (isApiUrlChanged) {
+      this.fetchFeed();
+    }
+  }
+
   private fetchFeed(): void {
     const url = this.feedService.createUrlWithParams(
       this.apiUrl,
       this.currentPage,
       this.limit
-    );
+    ); /// articles?limit=10&offset=10 для 2-ї сторінки
     this.store.dispatch(feedActions.getFeed({ url }));
   }
   private getBaseFromUrl(): string {

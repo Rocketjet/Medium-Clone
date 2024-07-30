@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { BannerComponent } from 'src/app/shared/components/banner/banner.component';
 import { FeedTogglerComponent } from 'src/app/shared/components/feed-toggler/feed-toggler.component';
 import { FeedComponent } from 'src/app/shared/components/feed/feed.component';
@@ -6,17 +8,26 @@ import { PopularTagsComponent } from 'src/app/shared/components/popular-tags/pop
 import { apiFeed } from 'src/environments/environment.development';
 
 @Component({
-  selector: 'app-global-feed',
+  selector: 'app-tag-feed',
+  templateUrl: './tag-feed.component.html',
   standalone: true,
   imports: [
+    CommonModule,
     FeedComponent,
     BannerComponent,
     PopularTagsComponent,
     FeedTogglerComponent,
   ],
-  templateUrl: './global-feed.component.html',
-  styleUrl: './global-feed.component.scss',
 })
-export class GlobalFeedComponent {
-  apiUrl = apiFeed.ARTICLES;
+export class TagFeedComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  apiUrl!: string;
+  tagName!: string;
+
+  ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.tagName = params['slug'];
+      this.apiUrl = `${apiFeed.ARTICLES}?tag=${this.tagName}`;
+    });
+  }
 }
