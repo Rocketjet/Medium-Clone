@@ -62,6 +62,8 @@ export class FeedComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    //? якщо це не перша зміна apiUrl і поточне значення відрізняється від попереднього, значить apiUrl було змінено, а отже потрібно зробити повторний запит за новими постами
+    //? це потрібно для tag-feed при виборі різних тегів
     const isApiUrlChanged =
       !changes['apiUrl'].firstChange &&
       changes['apiUrl'].currentValue !== changes['apiUrl'].previousValue;

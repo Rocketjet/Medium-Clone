@@ -14,7 +14,6 @@ export class ValidationErrorMessagesComponent implements OnInit {
 
   errorMessages: string[] = [];
   ngOnInit(): void {
-    console.log('ValidationErrorMessagesComponent', this.errors);
     this.errorMessages = Object.keys(this.errors).map((key) => {
       const messages = this.errors[key].join(' ');
       return `${key} ${messages}`;

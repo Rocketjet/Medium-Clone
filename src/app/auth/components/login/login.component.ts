@@ -25,8 +25,10 @@ import { LoginRequestInterface } from '../../interfaces/login-request.interface'
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   private readonly store = inject(Store<AppStateInterface>);
+  private readonly fb = inject(FormBuilder);
+
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
     validationErrors: this.store.select(selectValidationErrors),
@@ -36,14 +38,7 @@ export class LoginComponent implements OnInit {
     password: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    console.log('OnInit fired');
-  }
-
   onSubmit() {
-    console.log('form', this.form.getRawValue());
     const request: LoginRequestInterface = {
       user: this.form.getRawValue(),
     };

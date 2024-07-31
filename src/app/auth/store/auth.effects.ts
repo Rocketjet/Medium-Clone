@@ -80,7 +80,7 @@ export const loginEffect = createEffect(
       switchMap(({ request }) =>
         authService.login(request).pipe(
           map((user) => {
-            persistanceService.set('accessToken', user.token);
+            persistanceService.set('authToken', user.token);
             return authActions.loginSuccess({ user });
           }),
           catchError((errorResponse: HttpErrorResponse) => {

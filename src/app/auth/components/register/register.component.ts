@@ -25,8 +25,10 @@ import { ValidationErrorMessagesComponent } from 'src/app/shared/components/resp
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   private readonly store = inject(Store<AppStateInterface>);
+  private readonly fb = inject(FormBuilder);
+
   data$ = combineLatest({
     isSubmitting: this.store.select(selectIsSubmitting),
     validationErrors: this.store.select(selectValidationErrors),
@@ -38,14 +40,7 @@ export class RegisterComponent implements OnInit {
     password: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    console.log('OnInit fired');
-  }
-
   onSubmit() {
-    console.log('form', this.form.getRawValue());
     const request: RegisterRequestInterface = {
       user: this.form.getRawValue(),
     };
