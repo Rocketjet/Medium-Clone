@@ -17,6 +17,8 @@ const authFeature = createFeature({
   reducer: createReducer(
     initialState,
     //? метод on() асоціює передану дію з коллбеком, який передається останнім аргументом і який відповідальний за зміну стану
+
+    //? register and login
     on(authActions.register, authActions.login, (state) => ({
       ...state,
       isSubmitting: true,
@@ -40,20 +42,37 @@ const authFeature = createFeature({
         validationErrors: errors,
       })
     ),
-    on(authActions.getCurrentUser, (state) => ({
+
+    //? logout
+    on(authActions.logout, (state) => ({
+      ...state,
+      ...initialState,
+      user: null,
+    })),
+
+    //? get user
+    on(authActions.getUser, (state) => ({
       ...state,
       isLoading: true,
     })),
-    on(authActions.getCurrentUserSuccess, (state, { user }) => ({
+    on(authActions.getUserSuccess, (state, { user }) => ({
       ...state,
       isLoading: false,
       user,
     })),
-    on(authActions.getCurrentUserFailure, (state) => ({
+    on(authActions.getUserFailure, (state) => ({
       ...state,
       isLoading: false,
       user: null,
     })),
+
+    //? update user
+    on(authActions.updateUserSuccess, (state, { user }) => ({
+      ...state,
+      user,
+    })),
+
+    //? navigation
     on(routerNavigationAction, (state) => ({
       ...state,
       validationErrors: null,

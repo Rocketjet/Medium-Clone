@@ -54,4 +54,11 @@ export const routes: Routes = [
         (m) => m.editArticleRoutes
       ),
   },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('src/app/main/settings/settings.routes').then(
+        (m) => m.settingsRoutes
+      ),
+  },
 ];

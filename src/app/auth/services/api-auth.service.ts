@@ -6,6 +6,7 @@ import { UserInterface } from 'src/app/shared/interfaces/user.interface';
 import { AuthResponseInterface } from '../interfaces/auth-response.interface';
 import { apiAuth } from 'src/environments/environment.development';
 import { LoginRequestInterface } from '../interfaces/login-request.interface';
+import { UserRequestInterface } from 'src/app/shared/interfaces/user-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +14,20 @@ import { LoginRequestInterface } from '../interfaces/login-request.interface';
 export class ApiAuthService {
   private readonly http = inject(HttpClient);
 
-  getCurrentUser(): Observable<UserInterface> {
+  getUser(): Observable<UserInterface> {
     const { API_HOST_URL, USER } = apiAuth;
     const url = `${API_HOST_URL}/${USER}`;
-    return this.http.get<AuthResponseInterface>(url).pipe(map(this.getUser));
+    return this.http
+      .get<AuthResponseInterface>(url)
+      .pipe(map(this.getUserFromRes));
+  }
+
+  updateUser(user: UserRequestInterface): Observable<UserInterface> {
+    const { API_HOST_URL, USER } = apiAuth;
+    const url = `${API_HOST_URL}/${USER}`;
+    return this.http
+      .put<UserRequestInterface>(url, user)
+      .pipe(map(this.getUserFromRes));
   }
 
   register(data: RegisterRequestInterface): Observable<UserInterface> {
@@ -24,7 +35,7 @@ export class ApiAuthService {
     const url = `${API_HOST_URL}/${USERS}`;
     return this.http
       .post<AuthResponseInterface>(url, data)
-      .pipe(map(this.getUser));
+      .pipe(map(this.getUserFromRes));
   }
 
   login(data: LoginRequestInterface): Observable<UserInterface> {
@@ -32,10 +43,10 @@ export class ApiAuthService {
     const url = `${API_HOST_URL}/${LOGIN}`;
     return this.http
       .post<AuthResponseInterface>(url, data)
-      .pipe(map(this.getUser));
+      .pipe(map(this.getUserFromRes));
   }
 
-  private getUser(res: AuthResponseInterface): UserInterface {
+  private getUserFromRes(res: AuthResponseInterface): UserInterface {
     return res.user;
   }
 }

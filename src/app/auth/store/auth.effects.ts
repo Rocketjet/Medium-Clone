@@ -8,25 +8,26 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PersistanceService } from 'src/app/shared/services/persistance.service';
 import { Router } from '@angular/router';
+import { UserInterface } from 'src/app/shared/interfaces/user.interface';
 
 //! коли тригериться дія, вказана в ofType, виконається код в наступному операторі, де, як правило, буде виконуватися якась асинхронна дія. Якщо кол успішний, тригериться success action. Якщо неуспішний, помилка попаде в catchError і тригериться failure action
 
-export const getCurrentUserEffect = createEffect(
+export const getUserEffect = createEffect(
   (
     actions$ = inject(Actions),
     authService = inject(ApiAuthService),
     persistanceService = inject(PersistanceService)
   ) => {
     return actions$.pipe(
-      ofType(authActions.getCurrentUser),
+      ofType(authActions.getUser),
       switchMap(() => {
         const authToken = persistanceService.get('authToken');
         if (!authToken) {
-          return of(authActions.getCurrentUserFailure());
+          return of(authActions.getUserFailure());
         }
-        return authService.getCurrentUser().pipe(
-          map((user) => authActions.getCurrentUserSuccess({ user })),
-          catchError(() => of(authActions.getCurrentUserFailure()))
+        return authService.getUser().pipe(
+          map((user) => authActions.getUserSuccess({ user })),
+          catchError(() => of(authActions.getUserFailure()))
         );
       })
     );
@@ -109,4 +110,47 @@ export const redirectAfterLoginEffect = createEffect(
       })
     ),
   { functional: true, dispatch: false }
+);
+
+export const updateUserEffect = createEffect(
+  (actions$ = inject(Actions), authService = inject(ApiAuthService)) => {
+    return actions$.pipe(
+      ofType(authActions.updateUser),
+      switchMap(({ user }) => {
+        return authService.updateUser(user).pipe(
+          map((user: UserInterface) => {
+            return authActions.updateUserSuccess({ user });
+          }),
+          catchError((errorsResponse: HttpErrorResponse) => {
+            return of(
+              authActions.updateUserFailure({
+                errors: errorsResponse.error.errors,
+              })
+            );
+          })
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const logoutEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    persistanceService = inject(PersistanceService)
+  ) => {
+    return actions$.pipe(
+      ofType(authActions.logout),
+      tap(() => {
+        persistanceService.set('authToken', '');
+        router.navigateByUrl('/');
+      })
+    );
+  },
+  {
+    functional: true,
+    dispatch: false,
+  }
 );

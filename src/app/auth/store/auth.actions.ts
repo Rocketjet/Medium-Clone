@@ -3,6 +3,7 @@ import { RegisterRequestInterface } from 'src/app/auth/interfaces/register-reque
 import { ResponseErrorInterface } from 'src/app/shared/interfaces/response-errors.interface';
 import { UserInterface } from 'src/app/shared/interfaces/user.interface';
 import { LoginRequestInterface } from '../interfaces/login-request.interface';
+import { UserRequestInterface } from 'src/app/shared/interfaces/user-request.interface';
 
 const authActions = createActionGroup({
   source: 'auth',
@@ -15,9 +16,15 @@ const authActions = createActionGroup({
     loginSuccess: props<{ user: UserInterface }>(),
     loginFailure: props<{ errors: ResponseErrorInterface }>(),
 
-    getCurrentUser: emptyProps(),
-    getCurrentUserSuccess: props<{ user: UserInterface }>(),
-    getCurrentUserFailure: emptyProps(),
+    getUser: emptyProps(),
+    getUserSuccess: props<{ user: UserInterface }>(),
+    getUserFailure: emptyProps(),
+
+    updateUser: props<{ user: UserRequestInterface }>(),
+    updateUserSuccess: props<{ user: UserInterface }>(),
+    updateUserFailure: props<{ errors: ResponseErrorInterface; }>(),
+    
+    logout: emptyProps(),
   },
 });
 
