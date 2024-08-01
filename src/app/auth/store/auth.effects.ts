@@ -2,7 +2,7 @@
 
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthService } from '../services/auth.service';
+import { ApiAuthService } from '../services/api-auth.service';
 import authActions from './auth.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -12,7 +12,11 @@ import { Router } from '@angular/router';
 //! коли тригериться дія, вказана в ofType, виконається код в наступному операторі, де, як правило, буде виконуватися якась асинхронна дія. Якщо кол успішний, тригериться success action. Якщо неуспішний, помилка попаде в catchError і тригериться failure action
 
 export const getCurrentUserEffect = createEffect(
-  (actions$ = inject(Actions), authService = inject(AuthService), persistanceService = inject(PersistanceService)) => {
+  (
+    actions$ = inject(Actions),
+    authService = inject(ApiAuthService),
+    persistanceService = inject(PersistanceService)
+  ) => {
     return actions$.pipe(
       ofType(authActions.getCurrentUser),
       switchMap(() => {
@@ -33,7 +37,7 @@ export const getCurrentUserEffect = createEffect(
 export const registerEffect = createEffect(
   (
     actions$ = inject(Actions),
-    authService = inject(AuthService),
+    authService = inject(ApiAuthService),
     persistanceService = inject(PersistanceService)
   ) =>
     actions$.pipe(
@@ -72,7 +76,7 @@ export const redirectAfterRegisterEffect = createEffect(
 export const loginEffect = createEffect(
   (
     actions$ = inject(Actions),
-    authService = inject(AuthService),
+    authService = inject(ApiAuthService),
     persistanceService = inject(PersistanceService)
   ) =>
     actions$.pipe(

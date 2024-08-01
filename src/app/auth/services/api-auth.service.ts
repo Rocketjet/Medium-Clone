@@ -10,7 +10,7 @@ import { LoginRequestInterface } from '../interfaces/login-request.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class ApiAuthService {
   private readonly http = inject(HttpClient);
 
   getCurrentUser(): Observable<UserInterface> {
