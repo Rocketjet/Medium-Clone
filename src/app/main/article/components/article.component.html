@@ -1,0 +1,70 @@
+@if (data$ | async; as data) {
+  <div class="article-page">
+    <div class="banner">
+      @if (data.article) {
+        <div class="container">
+          <h1>{{ data.article.title }}</h1>
+          <div class="article-meta">
+            <app-article-meta [article]="data.article"></app-article-meta>
+            @if (data.isAuthor) {
+              <span>
+                <a
+                  href=""
+                  [routerLink]="['/articles', data.article.slug, 'edit']"
+                  class="btn btn-outline-secondary btn-sm"
+                  ><i class="ion-edit"></i>Edit Article</a
+                >
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="deleteArticle()"
+                >
+                  Delete Article
+                </button>
+              </span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+    <div class="container page">
+      @if (data.isLoading) {
+        <app-loading *ngIf="data.isLoading"></app-loading>
+      }
+      @if (data.error) {
+        <app-error-message *ngIf="data.error"></app-error-message>
+      }
+      @if (data.article) {
+        <div class="row article-content">
+          <div class="col-xs-12">
+            <div>
+              <p>{{ data.article.body }}</p>
+            </div>
+            <app-tag-list [tags]="data.article.tagList"></app-tag-list>
+          </div>
+        </div>
+      }
+      <hr />
+      <div class="article-actions">
+        <div class="article-meta">
+          <app-article-meta [article]="data.article!"></app-article-meta>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2">
+          <ng-container *ngIf="data.article">
+            <ng-container *ngIf="data.currentUser">
+              <app-comments [slug]="data.article.slug"></app-comments>
+            </ng-container>
+            <ng-container *ngIf="data.currentUser === null">
+              <a href="" [routerLink]="['/login']">Sign in</a>
+              <span> or </span>
+              <a href="" [routerLink]="['/register']">sign up</a>
+              <span> to add comments on this article. </span>
+            </ng-container>
+            <app-comments-list [slug]="data.article.slug"></app-comments-list>
+          </ng-container>
+        </div>
+      </div> -->
+    </div>
+  </div>
+}

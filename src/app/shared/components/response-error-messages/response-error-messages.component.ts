@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BackendErrorsInterface } from '../../interfaces/backend-errors.interface';
+import { ResponseErrorInterface } from '../../interfaces/response-errors.interface';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-validation-error-messages',
+  selector: 'app-response-error-messages',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './validation-error-messages.component.html',
-  styleUrl: './validation-error-messages.component.scss',
+  templateUrl: './response-error-messages.component.html',
+  styleUrl: './response-error-messages.component.scss',
 })
-export class ValidationErrorMessagesComponent implements OnInit {
-  @Input() errors: BackendErrorsInterface = {};
+export class ResponseErrorMessagesComponent implements OnInit {
+  @Input() errors: ResponseErrorInterface = {};
 
   errorMessages: string[] = [];
   ngOnInit(): void {

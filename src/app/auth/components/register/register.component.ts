@@ -11,7 +11,7 @@ import {
   selectValidationErrors,
 } from '../../store/auth.reducer';
 import { combineLatest } from 'rxjs';
-import { ValidationErrorMessagesComponent } from 'src/app/shared/components/response-error-messages/validation-error-messages.component';
+import { ResponseErrorMessagesComponent } from 'src/app/shared/components/response-error-messages/response-error-messages.component';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +20,7 @@ import { ValidationErrorMessagesComponent } from 'src/app/shared/components/resp
     CommonModule,
     ReactiveFormsModule,
     RouterLink,
-    ValidationErrorMessagesComponent,
+    ResponseErrorMessagesComponent,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],

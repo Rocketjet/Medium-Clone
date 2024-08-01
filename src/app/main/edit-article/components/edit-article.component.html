@@ -1,0 +1,13 @@
+@if (data$ | async; as data) {
+  @if (data.isLoading) {
+    <app-loading *ngIf="data.isLoading"></app-loading>
+  }
+  @if (data.initialArticleFormValues) {
+    <app-article-form
+      [initialValues]="data.initialArticleFormValues"
+      [isSubmitting]="data.isSubmitting"
+      [errors]="data.validationErrors"
+      (articleSubmit)="onSubmit($event)"
+    ></app-article-form>
+  }
+}

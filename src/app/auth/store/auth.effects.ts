@@ -66,7 +66,7 @@ export const redirectAfterRegisterEffect = createEffect(
         router.navigateByUrl('/'); //? редіректимо на головну сторінку
       })
     ),
-  { functional: true, dispatch: false } //dispatch: false означає, що в цьому ефекті екшени діспатчитись не будуть
+  { functional: true, dispatch: false } //dispatch: false означає, що в результаті виконання цього ефекту ніякі екшени не діспатчитимуться
 );
 
 export const loginEffect = createEffect(

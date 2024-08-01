@@ -11,12 +11,6 @@ import queryString from 'query-string';
 export class FeedService {
   private readonly http = inject(HttpClient);
 
-  getFeed(url: string): Observable<GetFeedResponseInterface> {
-    const { API_HOST_URL } = apiAuth;
-    const fullUrl = `${API_HOST_URL}/${url}`;
-    return this.http.get<GetFeedResponseInterface>(fullUrl);
-  }
-
   createUrlWithParams(url: string, currentPage: number, limit: number): string {
     // формула, за якою ми визначаємо зсув по кількості завантажених постів
     // якщо ми на 2 сторінці і на одній ми показуємо 10 постів, то 2 * 10 - 10 = 10, тобто зсув на 10 постів

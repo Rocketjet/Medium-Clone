@@ -32,4 +32,26 @@ export const routes: Routes = [
         (m) => m.tagFeedRoutes
       ),
   },
+  {
+    //? додаємо цей шлях перед articles/:slug, так як якщо додати навпаки, то при переході по articles/new спрацює першим articles/:slug
+    path: 'articles/new',
+    loadChildren: () =>
+      import('src/app/main/create-article/create-article.routes').then(
+        (m) => m.createArticleRoutes
+      ),
+  },
+  {
+    path: 'articles/:slug',
+    loadChildren: () =>
+      import('src/app/main/article/article.routes').then(
+        (m) => m.articleRoutes
+      ),
+  },
+  {
+    path: 'articles/:slug/edit',
+    loadChildren: () =>
+      import('src/app/main/edit-article/edit-article.route').then(
+        (m) => m.editArticleRoutes
+      ),
+  },
 ];

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -10,7 +10,7 @@ import {
   selectValidationErrors,
 } from '../../store/auth.reducer';
 import { combineLatest } from 'rxjs';
-import { ValidationErrorMessagesComponent } from 'src/app/shared/components/response-error-messages/validation-error-messages.component';
+import { ResponseErrorMessagesComponent } from 'src/app/shared/components/response-error-messages/response-error-messages.component';
 import { LoginRequestInterface } from '../../interfaces/login-request.interface';
 
 @Component({
@@ -19,7 +19,7 @@ import { LoginRequestInterface } from '../../interfaces/login-request.interface'
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    ValidationErrorMessagesComponent,
+    ResponseErrorMessagesComponent,
     RouterLink,
   ],
   templateUrl: './login.component.html',
