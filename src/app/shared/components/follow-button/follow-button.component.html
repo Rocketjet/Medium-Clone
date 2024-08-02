@@ -3,11 +3,16 @@
   [ngClass]="{
     btn: true,
     'btn-sm': true,
-    'btn-primary': isFollowed,
-    'btn-outline-primary': !isFollowed
+    'action-btn': true,
+    'btn-outline-secondary': !isFollowed,
+    'btn-secondary': isFollowed
   }"
+  [ngStyle]="{ marginRight: '5px' }"
+  #followButton
 >
   <i class="ion-plus-round"
-    ><span>&nbsp; Follow {{ username }}</span></i
+    ><span
+      >&nbsp; {{ isFollowed ? "Unfollow" : "Follow" }} {{ username }}</span
+    ></i
   >
 </button>

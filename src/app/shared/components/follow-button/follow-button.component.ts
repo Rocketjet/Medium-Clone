@@ -1,31 +1,33 @@
-import {CommonModule} from '@angular/common'
-import {Component, Input} from '@angular/core'
-import {Store} from '@ngrx/store'
-import {followUserActions} from './store/actions'
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { followUserActions } from './store/follow-button.actions';
 
 @Component({
-  selector: 'mc-follow-button',
+  selector: 'app-follow-button',
   templateUrl: './follow-button.component.html',
   standalone: true,
   imports: [CommonModule],
 })
 export class FollowButtonComponent {
-  @Input() public isFollowed!: boolean
-  @Input() public username!: string
+  @Input() isFollowed!: boolean;
+  @Input() username!: string;
+  @ViewChild('followButton') followButton!: ElementRef;
 
-  public constructor(private readonly store: Store) {}
+  private readonly store = inject(Store);
 
-  public handleClick(): void {
+  handleClick(): void {
     this.store.dispatch(
       followUserActions.followUser({
         isFollowed: this.isFollowed,
         username: this.username,
       })
-    )
-    this.toggleFollow()
+    );
+    this.toggleFollow();
+    this.followButton.nativeElement.blur();
   }
 
   private toggleFollow(): void {
-    this.isFollowed = !this.isFollowed
+    this.isFollowed = !this.isFollowed;
   }
 }

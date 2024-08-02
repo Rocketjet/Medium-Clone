@@ -33,6 +33,10 @@ export const _commonEnvironment = {
     API_HOST_URL,
     USER_PROFILE: `profiles/${SLUG}`,
   },
+  apiFollowUser: {
+    API_HOST_URL,
+    FOLLOW_USER: `profiles/${SLUG}/follow`,
+  },
   apiComment: {
     API_HOST_URL,
     GET_COMMENT: `articles/${SLUG}/comments`,

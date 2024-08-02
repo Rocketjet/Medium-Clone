@@ -9,7 +9,6 @@
             @if (data.isAuthor) {
               <span>
                 <a
-                  href=""
                   [routerLink]="['/articles', data.article.slug, 'edit']"
                   class="btn btn-outline-secondary btn-sm"
                   ><i class="ion-edit"></i>Edit Article</a
@@ -21,6 +20,16 @@
                   Delete Article
                 </button>
               </span>
+            } @else {
+              <app-follow-button
+                [isFollowed]="data.article.author.following"
+                [username]="data.article.author.username"
+              />
+              <app-add-to-favorites
+                [isFavorited]="data.article.favorited"
+                [favoritesCount]="data.article.favoritesCount"
+                [articleSlug]="data.article.slug"
+              />
             }
           </div>
         </div>
@@ -44,27 +53,6 @@
         </div>
       }
       <hr />
-      <div class="article-actions">
-        <div class="article-meta">
-          <app-article-meta [article]="data.article!"></app-article-meta>
-        </div>
-      </div>
-      <!-- <div class="row">
-        <div class="col-xs-12 col-md-8 offset-md-2">
-          <ng-container *ngIf="data.article">
-            <ng-container *ngIf="data.currentUser">
-              <app-comments [slug]="data.article.slug"></app-comments>
-            </ng-container>
-            <ng-container *ngIf="data.currentUser === null">
-              <a href="" [routerLink]="['/login']">Sign in</a>
-              <span> or </span>
-              <a href="" [routerLink]="['/register']">sign up</a>
-              <span> to add comments on this article. </span>
-            </ng-container>
-            <app-comments-list [slug]="data.article.slug"></app-comments-list>
-          </ng-container>
-        </div>
-      </div> -->
     </div>
   </div>
 }

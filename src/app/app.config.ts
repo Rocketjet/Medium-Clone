@@ -7,6 +7,7 @@ import * as authEffects from './auth/store/auth.effects';
 import * as feedEffects from './shared/components/feed/store/feed.effects';
 import * as popularTagsEffects from './shared/components/popular-tags/store/popular-tags.effects';
 import * as addToFavoritesEffects from './shared/components/add-to-favorites/store/add-to-fav.effects';
+import * as followUserEffects from './shared/components/follow-button/store/follow-button.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authFeatureKey, authReducer } from './auth/store/auth.reducer';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -30,7 +31,8 @@ export const appConfig: ApplicationConfig = {
       authEffects,
       feedEffects,
       popularTagsEffects,
-      addToFavoritesEffects
+      addToFavoritesEffects,
+      followUserEffects
     ),
     //ефекти можна реєструвати тут - глобально, і в роутах, передаючи в providers[]
     provideRouterStore(),

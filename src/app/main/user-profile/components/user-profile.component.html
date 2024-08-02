@@ -1,0 +1,58 @@
+@if (data$ | async; as data) {
+  @if (data.userProfile) {
+    <div class="profile-page">
+      <div class="user-info">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-md-10 offset-md-1">
+              <img [src]="data.userProfile.image" alt="" class="user-img" />
+              <h4>{{ data.userProfile.username }}</h4>
+              <p>{{ data.userProfile.bio }}</p>
+              @if (data.isUserProfile) {
+              <a
+                class="btn btn-sm btn-outline-secondary action-btn"
+                routerLink="/settings"
+                >Edit Profile Settings
+              </a>
+              } @else {
+              <app-follow-button
+                [isFollowed]="data.userProfile.following"
+                [username]="data.userProfile.username"
+              />
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-md-10 offset-md-1">
+            <div class="article-toggler">
+              <ul class="nav nav-pills outline-active">
+                <li class="nav-item">
+                  <a
+                    [routerLink]="['/profiles', data.userProfile.username]"
+                    class="nav-link"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >{{ data.userProfile.username }}'s posts</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a
+                    [routerLink]="['/profiles', data.userProfile.username, 'favorites']"
+                    class="nav-link"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    >Favorites Posts</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <app-feed [apiUrl]="getApiUrl()"></app-feed>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+}

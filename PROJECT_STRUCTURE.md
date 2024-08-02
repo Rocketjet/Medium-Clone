@@ -1,29 +1,27 @@
-# app structure
+# app structure example
 
 /app
-  /article
-    /components
-    /store
-    /types
-    /services
-      article.service.ts
-    article.routes
-  /globalFeed
-    /components
-      /globalFeed
-    globalFeed.routes
+  /auth
+  /main
+    /cmp-name
+      /components
+      /store
+      /interfaces
+      /services
+      cmp-name.routes
   /shared
     /components
-      /backendErrorMessages
-        backendErrorMessages.component.ts
-      /popularTags
-        popularTags.component.ts
-        /types
+      /cmp-name
+        /components
         /store
+        /interfaces
         /services
-    /types
-      article.interface.ts
+      cmp-name.routes
+    /interfaces
+      cmp-name.interface.ts
     /services
-      article.service.ts
+      cmp-name.service.ts
+    types
+      cmp-name.type.ts
   app.routes
 main.ts

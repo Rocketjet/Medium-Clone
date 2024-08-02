@@ -61,4 +61,18 @@ export const routes: Routes = [
         (m) => m.settingsRoutes
       ),
   },
+  {
+    path: 'profiles/:slug',
+    loadChildren: () =>
+      import('src/app/main/user-profile/user-profile.routes').then(
+        (m) => m.userProfileRoutes
+      ),
+  },
+  {
+    path: 'profiles/:slug/favorites',
+    loadChildren: () =>
+      import('src/app/main/user-profile/user-profile.routes').then(
+        (m) => m.userProfileRoutes
+      ),
+  },
 ];

@@ -1,30 +1,30 @@
-import {HttpClient} from '@angular/common/http'
-import {Injectable} from '@angular/core'
-import {Observable, map} from 'rxjs'
-import {ProfileResponse} from 'src/app/shared/types/profile-response.interface'
-import {UserProfileInterface} from 'src/app/user-profile/types/user-profile.interface'
-import {ApiParams} from 'src/environments/const/api-params.const'
-import {apiFavorites} from 'src/environments/environment.development'
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
+import { ProfileResponseInterface } from 'src/app/shared/interfaces/profile-response.interface';
+import { ProfileInterface } from 'src/app/shared/interfaces/profile.interface';
+import { SLUG } from 'src/environments/constants/api-params.const';
+import { apiFollowUser } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiFollowUserService {
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
 
-  public followUser(username: string): Observable<UserProfileInterface> {
-    const {API_HOST_URL, FAVORITES} = apiFavorites
-    const url = `${API_HOST_URL}/${FAVORITES}`.replace(ApiParams.SLUG, username)
+  followUser(username: string): Observable<ProfileInterface> {
+    const { API_HOST_URL, FOLLOW_USER } = apiFollowUser;
+    const url = `${API_HOST_URL}/${FOLLOW_USER}`.replace(SLUG, username);
     return this.http
-      .post<ProfileResponse>(url, {})
-      .pipe(map((response) => response.profile))
+      .post<ProfileResponseInterface>(url, {})
+      .pipe(map((response) => response.profile));
   }
 
-  public unfollowUser(username: string): Observable<UserProfileInterface> {
-    const {API_HOST_URL, FAVORITES} = apiFavorites
-    const url = `${API_HOST_URL}/${FAVORITES}`.replace(ApiParams.SLUG, username)
+  unFollowUser(username: string): Observable<ProfileInterface> {
+    const { API_HOST_URL, FOLLOW_USER } = apiFollowUser;
+    const url = `${API_HOST_URL}/${FOLLOW_USER}`.replace(SLUG, username);
     return this.http
-      .delete<ProfileResponse>(url)
-      .pipe(map((response) => response.profile))
+      .delete<ProfileResponseInterface>(url)
+      .pipe(map((response) => response.profile));
   }
 }
