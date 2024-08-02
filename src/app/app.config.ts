@@ -6,6 +6,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import * as authEffects from './auth/store/auth.effects';
 import * as feedEffects from './shared/components/feed/store/feed.effects';
 import * as popularTagsEffects from './shared/components/popular-tags/store/popular-tags.effects';
+import * as addToFavoritesEffects from './shared/components/add-to-favorites/store/add-to-fav.effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { authFeatureKey, authReducer } from './auth/store/auth.reducer';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -16,12 +17,21 @@ import {
   feedFeatureKey,
   feedReducer,
 } from './shared/components/feed/store/feed.reducer';
-import { popularTagsFeatureKey, popularTagsReducer } from './shared/components/popular-tags/store/popular-tags.reducer';
+import {
+  popularTagsFeatureKey,
+  popularTagsReducer,
+} from './shared/components/popular-tags/store/popular-tags.reducer';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideStore({ router: routerReducer }),
-    provideEffects(authEffects, feedEffects, popularTagsEffects),
+    provideEffects(
+      authEffects,
+      feedEffects,
+      popularTagsEffects,
+      addToFavoritesEffects
+    ),
     //ефекти можна реєструвати тут - глобально, і в роутах, передаючи в providers[]
     provideRouterStore(),
     provideState(authFeatureKey, authReducer),

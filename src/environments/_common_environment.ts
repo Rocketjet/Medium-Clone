@@ -1,3 +1,4 @@
+import { SLUG, ID } from './constants/api-params.const';
 const API_HOST_URL = 'https://api.realworld.io/api';
 
 export const environment = {
@@ -23,5 +24,19 @@ export const _commonEnvironment = {
   apiArticle: {
     API_HOST_URL,
     ARTICLES: 'articles',
+  },
+  apiFavorites: {
+    API_HOST_URL,
+    FAVORITES: `articles/${SLUG}/favorite`,
+  },
+  apiUserProfile: {
+    API_HOST_URL,
+    USER_PROFILE: `profiles/${SLUG}`,
+  },
+  apiComment: {
+    API_HOST_URL,
+    GET_COMMENT: `articles/${SLUG}/comments`,
+    CREATE_COMMENT: `articles/${SLUG}/comments`,
+    DELETE_COMMENT: `articles/${SLUG}/comments/${ID}`,
   },
 };

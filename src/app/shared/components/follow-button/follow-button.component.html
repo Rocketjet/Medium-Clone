@@ -1,0 +1,13 @@
+<button
+  (click)="handleClick()"
+  [ngClass]="{
+    btn: true,
+    'btn-sm': true,
+    'btn-primary': isFollowed,
+    'btn-outline-primary': !isFollowed
+  }"
+>
+  <i class="ion-plus-round"
+    ><span>&nbsp; Follow {{ username }}</span></i
+  >
+</button>

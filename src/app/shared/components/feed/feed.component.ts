@@ -19,6 +19,8 @@ import { PaginationComponent } from '../pagination/pagination.component';
 import { FeedService } from './services/feed.service';
 import { TagListComponent } from '../tag-list/tag-list.component';
 import { FeedStateInterface } from './interfaces/feed-state.interface';
+import { AddToFavoritesComponent } from '../add-to-favorites/add-to-favorites.component';
+import { selectUser } from 'src/app/auth/store/auth.reducer';
 
 @Component({
   selector: 'app-feed',
@@ -31,6 +33,7 @@ import { FeedStateInterface } from './interfaces/feed-state.interface';
     LoadingComponent,
     PaginationComponent,
     TagListComponent,
+    AddToFavoritesComponent
   ],
 })
 export class FeedComponent implements OnInit, OnChanges {
@@ -45,6 +48,7 @@ export class FeedComponent implements OnInit, OnChanges {
   baseUrl!: string; // яка стрічка відкрита
   currentPage!: number; // на які ми сторінці
   limit!: number; // максимальна кількість постів в стрічці
+  user$ = this.store.select(selectUser);
 
   ngOnInit(): void {
     this.data$ = combineLatest({

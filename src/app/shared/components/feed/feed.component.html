@@ -20,7 +20,12 @@
             <span class="date">{{ article.createdAt }}</span>
           </div>
           <div class="pull-xs-right">
-            ADD TO FAVORITES
+            @if (user$ | async; as user) {
+              <app-add-to-favorites
+                [isFavorited]="article.favorited"
+                [articleSlug]="article.slug"
+                [favoritesCount]="article.favoritesCount" />
+            }
           </div>
         </div>
         <a class="preview-link" [routerLink]="['/articles', article.slug]">
