@@ -6,6 +6,12 @@
 
 ## General information
 
+API docs:
+
+[https://realworld-docs.netlify.app/docs/intro](https://realworld-docs.netlify.app/docs/intro)
+
+---
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
 
 ## Development server
