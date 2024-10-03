@@ -4,7 +4,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import authActions from '../../store/auth.actions';
 import { RouterLink } from '@angular/router';
-import { AppStateInterface } from 'src/app/app.interfaces';
 import {
   selectIsSubmitting,
   selectValidationErrors,
@@ -26,7 +25,7 @@ import { LoginRequestInterface } from '../../interfaces/login-request.interface'
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  private readonly store = inject(Store<AppStateInterface>);
+  private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
 
   data$ = combineLatest({

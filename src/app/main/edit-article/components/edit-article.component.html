@@ -1,6 +1,6 @@
 @if (data$ | async; as data) {
   @if (data.isLoading) {
-    <app-loading *ngIf="data.isLoading"></app-loading>
+    <app-loading></app-loading>
   }
   @if (data.initialArticleFormValues) {
     <app-article-form

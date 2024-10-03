@@ -37,10 +37,10 @@
     </div>
     <div class="container page">
       @if (data.isLoading) {
-        <app-loading *ngIf="data.isLoading"></app-loading>
+        <app-loading></app-loading>
       }
       @if (data.error) {
-        <app-error-message *ngIf="data.error"></app-error-message>
+        <app-error-message></app-error-message>
       }
       @if (data.article) {
         <div class="row article-content">

@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import authActions from '../../store/auth.actions';
 import { RegisterRequestInterface } from 'src/app/auth/interfaces/register-request.interface';
 import { RouterLink } from '@angular/router';
-import { AppStateInterface } from 'src/app/app.interfaces';
 import {
   selectIsSubmitting,
   selectValidationErrors,
@@ -26,7 +25,7 @@ import { ResponseErrorMessagesComponent } from 'src/app/shared/components/respon
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  private readonly store = inject(Store<AppStateInterface>);
+  private readonly store = inject(Store);
   private readonly fb = inject(FormBuilder);
 
   data$ = combineLatest({
